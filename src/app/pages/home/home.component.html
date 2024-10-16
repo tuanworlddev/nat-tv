@@ -1,0 +1,52 @@
+<app-video-call [localStreamInput]="localStream"></app-video-call>
+<div class="flex flex-col md:flex-row justify-between mt-2">
+    <div class="w-full flex items-center justify-start gap-2 p-2">
+        @if (!isStarted) {
+        <button type="button"
+        (click)="onStart()"
+            class="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold text-2xl p-2 md:p-6 lg:p-11 shadow-lg shadow-green-700 rounded transition-colors disabled:bg-green-300 disabled:shadow-none">
+            Start
+        </button>
+        } @else {
+        <button type="button"
+            class="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold text-2xl p-2 md:p-6 lg:p-11 shadow-lg shadow-green-700 rounded transition-colors disabled:bg-green-300 disabled:shadow-none">
+            Next
+        </button>
+        }
+
+        <button type="button"
+        (click)="onStop()"
+            class="bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-semibold text-2xl p-2 md:p-6 lg:p-11 shadow-lg shadow-red-700 rounded transition-colors disabled:bg-red-300 disabled:shadow-none" [disabled]="!isStarted">
+            Stop
+        </button>
+    </div>
+    <div class="w-full">
+        <div class="w-full border rounded">
+            <h3 class="text-xl px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded-t">Messages</h3>
+            <hr>
+            <div
+                class="h-32 px-2 py-0.5 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200 scrollbar-track-zinc-300 dark:scrollbar-thumb-zinc-700 dark:scrollbar-track-zinc-800">
+            </div>
+            <hr>
+            <form class="flex items-center justify-between px-2 bg-zinc-50 dark:bg-zinc-900 rounded-b">
+                <input type="text" name="messageInput" id="messageInput" class="w-full outline-none py-1 bg-transparent"
+                    placeholder="Enter a message...">
+                <svg fill="#ffffff" height="20px" width="20px" version="1.1" id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 495.003 495.003" xml:space="preserve" stroke="#ffffff">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                    <g id="SVGRepo_iconCarrier">
+                        <g id="XMLID_51_">
+                            <path id="XMLID_53_"
+                                d="M164.711,456.687c0,2.966,1.647,5.686,4.266,7.072c2.617,1.385,5.799,1.207,8.245-0.468l55.09-37.616 l-67.6-32.22V456.687z" />
+                            <path id="XMLID_52_"
+                                d="M492.431,32.443c-1.513-1.395-3.466-2.125-5.44-2.125c-1.19,0-2.377,0.264-3.5,0.816L7.905,264.422 c-4.861,2.389-7.937,7.353-7.904,12.783c0.033,5.423,3.161,10.353,8.057,12.689l125.342,59.724l250.62-205.99L164.455,364.414 l156.145,74.4c1.918,0.919,4.012,1.376,6.084,1.376c1.768,0,3.519-0.322,5.186-0.977c3.637-1.438,6.527-4.318,7.97-7.956 L494.436,41.257C495.66,38.188,494.862,34.679,492.431,32.443z" />
+                        </g>
+                    </g>
+
+                </svg>
+            </form>
+        </div>
+    </div>
+</div>
