@@ -1,4 +1,5 @@
-import { Component, effect, ElementRef, input, ViewChild, ViewChildren } from '@angular/core';
+import { Component, computed, effect, ElementRef, input, Signal, ViewChild } from '@angular/core';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 
 @Component({
   selector: 'app-video-call',
@@ -9,15 +10,29 @@ import { Component, effect, ElementRef, input, ViewChild, ViewChildren } from '@
 })
 export class VideoCallComponent {
   @ViewChild('localVideo') localVideoRef?: ElementRef;
-  @ViewChild('remoteVideo') remoteVIdeoRef?: ElementRef;
+  @ViewChild('remoteVideo') remoteVideoRef?: ElementRef;
 
   localStreamInput = input<MediaStream>();
+  remoteStreamInput = input<MediaStream>();
+  isStartedInput = input<boolean>(false);
 
   constructor() {
-    effect(() => {
-      const localStream = this.localStreamInput();
+
+    explicitEffect([this.localStreamInput], ([localStream]) => {
       if (this.localVideoRef && localStream) {
         this.localVideoRef.nativeElement.srcObject = localStream;
+      }
+    });
+
+    explicitEffect([this.remoteStreamInput], ([remoteStream]) => {
+      if (this.remoteVideoRef && remoteStream) {
+        this.remoteVideoRef.nativeElement.srcObject = remoteStream;
+      }
+    });
+
+    explicitEffect([this.isStartedInput], ([isStarted]) => {
+      if (!isStarted && this.remoteVideoRef?.nativeElement.srcObject) {
+        this.remoteVideoRef.nativeElement.srcObject = null;
       }
     });
   }

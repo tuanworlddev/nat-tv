@@ -1,4 +1,4 @@
-<app-video-call [localStreamInput]="localStream"></app-video-call>
+<app-video-call [localStreamInput]="localStream" [remoteStreamInput]="remoteStream" [isStartedInput]="isStarted"></app-video-call>
 <div class="flex flex-col md:flex-row justify-between mt-2">
     <div class="w-full flex items-center justify-start gap-2 p-2">
         @if (!isStarted) {
@@ -9,7 +9,8 @@
         </button>
         } @else {
         <button type="button"
-            class="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold text-2xl p-2 md:p-6 lg:p-11 shadow-lg shadow-green-700 rounded transition-colors disabled:bg-green-300 disabled:shadow-none">
+            class="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold text-2xl p-2 md:p-6 lg:p-11 shadow-lg shadow-green-700 rounded transition-colors disabled:bg-green-300 disabled:shadow-none"
+            [disabled]="!remoteStream">
             Next
         </button>
         }
@@ -25,12 +26,15 @@
             <h3 class="text-xl px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded-t">Messages</h3>
             <hr>
             <div
-                class="h-32 px-2 py-0.5 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200 scrollbar-track-zinc-300 dark:scrollbar-thumb-zinc-700 dark:scrollbar-track-zinc-800">
+                class="h-28 px-2 py-0.5 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200 dark:bg-zinc-900 scrollbar-track-zinc-300 dark:scrollbar-thumb-zinc-700 dark:scrollbar-track-zinc-800">
+                @for (message of messages; track $index) {
+                    <div class="text-white px-2 py-1 mb-1 bg-blue-400 rounded-lg">{{ message }}</div>
+                }
             </div>
             <hr>
-            <form class="flex items-center justify-between px-2 bg-zinc-50 dark:bg-zinc-900 rounded-b">
+            <form [formGroup]="sendMessageForm" (ngSubmit)="onSendMessage()" class="flex items-center justify-between px-2 bg-zinc-50 dark:bg-zinc-900 rounded-b">
                 <input type="text" name="messageInput" id="messageInput" class="w-full outline-none py-1 bg-transparent"
-                    placeholder="Enter a message...">
+                    placeholder="Enter a message..." formControlName="content">
                 <svg fill="#ffffff" height="20px" width="20px" version="1.1" id="Capa_1"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 495.003 495.003" xml:space="preserve" stroke="#ffffff">
